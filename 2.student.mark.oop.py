@@ -73,41 +73,39 @@ def main():
         choice = intro()
         print(choice)
 
-        match choice:
+        if choice == 1:
             # create new student
-            case 1:
-                num_student = input('Input number of student(s): ')
-
-                for i in range(int(num_student)):
-                    input_student_id = input('Input student ID: ')
-                    input_student_name = input('Input student name: ')
-                    input_student_dob = input('Input student Date of Birth: ')
-                    new_student = Student(input_student_id, input_student_name, input_student_dob)
-                    information.student_list.append(new_student)
+            num_student = input('Input number of student(s): ')
+            for i in range(int(num_student)):
+                input_student_id = input('Input student ID: ')
+                input_student_name = input('Input student name: ')
+                input_student_dob = input('Input student Date of Birth: ')
+                new_student = Student(input_student_id, input_student_name, input_student_dob)
+                information.student_list.append(new_student)
+        elif choice == 2:
             # create new course
-            case 2:
-                num_course = input('Input number of course(s): ')
+            num_course = input('Input number of course(s): ')
 
-                for i in range(int(num_course)):
-                    input_course_id = input('Input course ID: ')
-                    input_couse_name = input('Input course name: ')
-                    new_course = Course(input_course_id, input_couse_name)
-                    information.course_list.append(new_course)
+            for i in range(int(num_course)):
+                input_course_id = input('Input course ID: ')
+                input_couse_name = input('Input course name: ')
+                new_course = Course(input_course_id, input_couse_name)
+                information.course_list.append(new_course)
+        elif choice == 3:
             # show all students
-            case 3:
-                information.output_student_list()
+            information.output_student_list()
+        elif choice == 4:
             # show all courses
-            case 4:
-                information.output_course_list()
+            information.output_course_list()
+        elif choice == 5:
             # create marks
-            case 5:
-                information.create_marks()
+            information.create_marks()
+        elif choice == 6:
             # show all marks of a course
-            case 6:
-                information.output_marks_list()
+            information.output_marks_list()
+        elif choice == 7:
             # exit
-            case 7:
-                return
+            return
 
 if __name__=="__main__":
     main()
