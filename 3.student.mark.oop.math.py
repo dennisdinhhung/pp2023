@@ -7,10 +7,10 @@ class GeneralInfo:
         self.name = name
 
 class Course(GeneralInfo):
-    def __init__(self, id, name, credits, mark_list=[]):
+    def __init__(self, id, name, credits):
         super().__init__(id, name)
         self.credits = credits
-        self.mark_list = mark_list
+        self.mark_list = []
 
     def add_mark(self, student_name, mark):
         mark_entry = {
@@ -65,10 +65,10 @@ class Information:
                 continue
             for course in self.course_list:
                 for mark_entry in course.mark_list:
-                    if student.name != mark_entry.student_name:
+                    if student.name != mark_entry['name']:
                         continue
-                    student_mark_list.append(mark_entry.mark)
-        print(student_mark_list)
+                    student_mark_list.append(mark_entry['mark'])
+        print(f"The average GPA of student {input_student_id} is: {np.average(student_mark_list)}")
         
 def intro():
     print('\n')
@@ -79,7 +79,8 @@ def intro():
     print('(4) See list of courses')
     print('(5) Add marks to course')
     print('(6) See marks of students in a course')
-    print('(7) Exit')
+    print('(7) See average GPA of a student')
+    print('(8) Exit')
     choice = int(input('Please input your choice: '))
     return choice
 
@@ -88,7 +89,7 @@ def main():
 
     while (True):
         choice = intro()
-        print(choice)
+        # print(choice)
 
         if choice == 1:
             # create new student
@@ -122,6 +123,8 @@ def main():
             # show all marks of a course
             information.output_marks_list()
         elif choice == 7:
+            information.averageGpa()
+        elif choice == 8:
             # exit
             return
 
