@@ -1,5 +1,7 @@
 from math import floor
 import numpy as np
+import curses
+from curses import wrapper
 
 class GeneralInfo:
     def __init__(self, id, name):
@@ -25,9 +27,9 @@ class Student(GeneralInfo):
         self.dob = dob
 
 class Information:
-    def __init__(self, course_list, student_list):
-        self.course_list = course_list
-        self.student_list = student_list
+    def __init__(self):
+        self.course_list = []
+        self.student_list = []
 
     def output_student_list(self):
         print("The student list: ")
@@ -84,8 +86,9 @@ def intro():
     choice = int(input('Please input your choice: '))
     return choice
 
-def main():
-    information = Information([], [])
+def main(stdscr):
+    stdscr.clear()
+    information = Information
 
     while (True):
         choice = intro()
@@ -129,4 +132,4 @@ def main():
             return
 
 if __name__=="__main__":
-    main()
+    wrapper(main)
