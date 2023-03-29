@@ -7,15 +7,15 @@ class GeneralInfo:
         self.name = name
 
 class Course(GeneralInfo):
-    def __init__(self, id, name, mark_list=[]):
+    def __init__(self, id, name, credits, mark_list=[]):
         super().__init__(id, name)
+        self.credits = credits
         self.mark_list = mark_list
 
     def add_mark(self, student_name, mark):
-        
         mark_entry = {
             "name": student_name,
-            "mark": floor(mark)
+            "mark": floor(float(mark))
         }
         self.mark_list.append(mark_entry)
         
@@ -43,7 +43,7 @@ class Information:
         input_course_id = input('\nPlease enter the course ID: ')
 
         for course in self.course_list:
-            if input_course_id is not course.id:
+            if input_course_id != course.id:
                 continue
             for student in self.student_list:
                 student_name = student.name
@@ -56,7 +56,20 @@ class Information:
             if course.id == input_course:
                 print(course.mark_list)
                 return
-
+            
+    def averageGpa(self):
+        student_mark_list = []
+        input_student_id = input('Input student id to see GPA: ')
+        for student in self.student_list:
+            if student.id != input_student_id:
+                continue
+            for course in self.course_list:
+                for mark_entry in course.mark_list:
+                    if student.name != mark_entry.student_name:
+                        continue
+                    student_mark_list.append(mark_entry.mark)
+        print(student_mark_list)
+        
 def intro():
     print('\n')
     print('What would you like to do:')
@@ -93,7 +106,8 @@ def main():
             for i in range(int(num_course)):
                 input_course_id = input('Input course ID: ')
                 input_couse_name = input('Input course name: ')
-                new_course = Course(input_course_id, input_couse_name)
+                input_credits = input('Input number of credits: ')
+                new_course = Course(input_course_id, input_couse_name, input_credits)
                 information.course_list.append(new_course)
         elif choice == 3:
             # show all students
