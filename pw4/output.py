@@ -14,6 +14,7 @@ def output():
             # create new student
             num_student = input('Input number of student(s): ')
             for i in range(int(num_student)):
+                print('\n')
                 input_student_id = input('Input student ID: ')
                 input_student_name = input('Input student name: ')
                 input_student_dob = input('Input student Date of Birth: ')
@@ -24,6 +25,7 @@ def output():
             num_course = input('Input number of course(s): ')
 
             for i in range(int(num_course)):
+                print('\n')
                 input_course_id = input('Input course ID: ')
                 input_couse_name = input('Input course name: ')
                 input_credits = input('Input number of credits: ')
