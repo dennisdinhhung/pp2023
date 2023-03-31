@@ -8,6 +8,7 @@ def intro():
     print('(5) Add marks to course')
     print('(6) See marks of students in a course')
     print('(7) See average GPA of a student')
-    print('(8) Exit')
+    print('(8) Import a text file')
+    print('(9) Save and Exit')
     choice = int(input('Please input your choice: '))
     return choice

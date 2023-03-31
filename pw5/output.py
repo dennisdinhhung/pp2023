@@ -1,50 +1,55 @@
-from domains import Information
-from domains import Student
-from domains import Course
-from input import intro
+import numpy as np
 
-def output():
-    information = Information()
+# from domains import Information
+# from domains import Student
+# from domains import Course
+# from input import intro
 
-    while (True):
-        choice = intro()
-        # print(choice)
+#TODO: when loading data, convert the line into an object that is manipulatible ( use split() )
+#TODO: create a new function to output the data into a txt file
+#TODO: create a new func to compress the data
+#TODO: create a new func/option to load data from the .dat or .zip file 
 
-        if choice == 1:
-            # create new student
-            num_student = input('Input number of student(s): ')
-            for i in range(int(num_student)):
-                print('\n')
-                input_student_id = input('Input student ID: ')
-                input_student_name = input('Input student name: ')
-                input_student_dob = input('Input student Date of Birth: ')
-                new_student = Student(input_student_id, input_student_name, input_student_dob)
-                information.student_list.append(new_student)
-        elif choice == 2:
-            # create new course
-            num_course = input('Input number of course(s): ')
+def output_student_list(student_list):
+    print("The student list: ")
+    for student in student_list:
+        print(f'{student.name} | {student.id} | {student.dob}')
 
-            for i in range(int(num_course)):
-                print('\n')
-                input_course_id = input('Input course ID: ')
-                input_couse_name = input('Input course name: ')
-                input_credits = input('Input number of credits: ')
-                new_course = Course(input_course_id, input_couse_name, input_credits)
-                information.course_list.append(new_course)
-        elif choice == 3:
-            # show all students
-            information.output_student_list()
-        elif choice == 4:
-            # show all courses
-            information.output_course_list()
-        elif choice == 5:
-            # create marks
-            information.create_marks()
-        elif choice == 6:
-            # show all marks of a course
-            information.output_marks_list()
-        elif choice == 7:
-            information.averageGpa()
-        elif choice == 8:
-            # exit
+def output_course_list(course_list):
+    print("The course list: ")
+    for course in course_list:
+        print(f'{course.name} | {course.id}')
+
+def create_marks(course_list):
+    input_course_id = input('\nPlease enter the course ID: ')
+
+    for course in course_list:
+        if input_course_id != course.id:
+            continue
+        for student in course_list:
+            student_name = student.name
+            mark = input(f'\nPlease enter the mark for student {student_name}: ')
+            course.add_mark(student_name, mark)
+
+def output_marks_list(course_list):
+    input_course = input('Please enter the course ID you want to see the marks of: ')
+    for course in course_list:
+        if course.id == input_course:
+            print(course.mark_list)
             return
+        
+def averageGpa(course_list, student_list):
+    student_mark_list = []
+    input_student_id = input('Input student id to see GPA: ')
+    for student in student_list:
+        if student.id != input_student_id:
+            continue
+        for course in course_list:
+            for mark_entry in course.mark_list:
+                if student.name != mark_entry['name']:
+                    continue
+                student_mark_list.append(mark_entry['mark'])
+    print(f"The average GPA of student {input_student_id} is: {np.average(student_mark_list)}")
+
+def outputToTxt(self):
+    pass
