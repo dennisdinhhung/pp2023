@@ -1,3 +1,2 @@
 /.env
-/__pycache__
-pw4/__pycache__
+*/__pycache__
