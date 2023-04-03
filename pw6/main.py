@@ -1,4 +1,5 @@
 import os
+import pickle
 from zipfile import ZipFile
 
 from input import intro
@@ -61,33 +62,11 @@ def main():
                 print('(.dat) file does not exists')
             with ZipFile('./data/students.dat', 'r') as zip:
                 zip.extractall()
-            with open('./data/students.pkl', 'r+') as students_data, \
-                open('./data/courses.pkl', 'r+') as courses_data:
-                # temp_student_list = [line.strip('\n') for line in students_data.readlines()]
-                # for item in temp_student_list:
-                #     item_stripped = item.split(',')
-                #     temp_student = Student(item_stripped[0], item_stripped[1], item_stripped[2])
-                #     student_list.append(temp_student)
-                # print(student_list)
+            with open('./data/students.pkl', 'rb') as students_data, \
+                open('./data/courses.pkl', 'rb') as courses_data:
 
-                # temp_course_list = [line.strip('\n') for line in courses_data.readlines()]
-                # for item in temp_course_list:
-                #     item_stripped = item.split(',')
-                #     temp_course = Course(item_stripped[0], item_stripped[1], item_stripped[2])
-                #     course_list.append(temp_course)
-                # print(course_list)
-
-                # mark_list = [line.strip('\n') for line in marks_data.readlines()]
-                # for item in mark_list:
-                #     for course in course_list:
-                #         if item == course.id:
-                #             course.mark_list.append(item)
-                # print(student_list)
-
-                student_list = students_data
-                course_list = courses_data
-                print(student_list)
-                print(course_list)
+                student_list = pickle.load(students_data)
+                course_list = pickle.load(courses_data)
                 print('Import Successful!')
 
         elif choice == 9:
