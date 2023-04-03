@@ -67,10 +67,7 @@ def save_data(student_list, course_list):
                 mark_str = f'{course.id},{mark.student_id},{mark.mark}'
                 marks_file.write(mark_str + '\n')
         
-        # courses_file.write(course_list + '\n')
-        #TODO: when saving mark list, add course_and student_id
-
 def compress_to_dat():
     with zipfile.ZipFile('data/students.dat', 'w', compression=zipfile.ZIP_DEFLATED) as zip:
         zip.write('data/students.txt')
-        # zip.write('./data/course.txt')
+        zip.write('data/course.txt')
