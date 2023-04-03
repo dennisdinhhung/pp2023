@@ -12,9 +12,9 @@ class Course(GeneralInfo):
         self.credits = credits
         self.mark_list = []
 
-    def add_mark(self, student_name, mark):
+    def add_mark(self, student_id, mark):
         mark_entry = {
-            "name": student_name,
+            "student_id": student_id,
             "mark": floor(float(mark))
         }
         self.mark_list.append(mark_entry)

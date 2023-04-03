@@ -1,4 +1,5 @@
 import numpy as np
+import zipfile
 
 # from domains import Information
 # from domains import Student
@@ -20,13 +21,13 @@ def output_course_list(course_list):
     for course in course_list:
         print(f'{course.name} | {course.id}')
 
-def create_marks(course_list):
+def create_marks(course_list, student_list):
     input_course_id = input('\nPlease enter the course ID: ')
 
     for course in course_list:
         if input_course_id != course.id:
             continue
-        for student in course_list:
+        for student in student_list:
             student_name = student.name
             mark = input(f'\nPlease enter the mark for student {student_name}: ')
             course.add_mark(student_name, mark)
@@ -38,7 +39,7 @@ def output_marks_list(course_list):
             print(course.mark_list)
             return
         
-def averageGpa(course_list, student_list):
+def average_gpa(course_list, student_list):
     student_mark_list = []
     input_student_id = input('Input student id to see GPA: ')
     for student in student_list:
@@ -51,5 +52,25 @@ def averageGpa(course_list, student_list):
                 student_mark_list.append(mark_entry['mark'])
     print(f"The average GPA of student {input_student_id} is: {np.average(student_mark_list)}")
 
-def outputToTxt(self):
-    pass
+def save_data(student_list, course_list):
+    with open('data/students.txt', 'w') as student_file:
+        for student in student_list:
+            student_str = f'{student.id},{student.name},{student.dob}'
+            student_file.write(student_str + '\n')
+
+    with open('data/courses.txt', 'w') as courses_file, open('data/marks.txt', 'w') as marks_file:
+        for course in course_list:
+            course_str = f'{course.id},{course.name},{course.credits}'
+            courses_file.write(course_str + '\n')
+
+            for mark in course.mark_list:
+                mark_str = f'{course.id},{mark.student_id},{mark.mark}'
+                marks_file.write(mark_str + '\n')
+        
+        # courses_file.write(course_list + '\n')
+        #TODO: when saving mark list, add course_and student_id
+
+def compress_to_dat():
+    with zipfile.ZipFile('data/students.dat', 'w', compression=zipfile.ZIP_DEFLATED) as zip:
+        zip.write('data/students.txt')
+        # zip.write('./data/course.txt')

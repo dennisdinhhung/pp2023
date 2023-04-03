@@ -1,17 +1,20 @@
 import os
+from zipfile import ZipFile
 
 from input import intro
-from output import output_student_list
+from output import compress_to_dat, output_student_list
+from output import save_data
 from output import output_course_list
 from output import create_marks
 from output import output_marks_list
-from output import averageGpa
+from output import average_gpa
 from domains import Student
 from domains import Course
 
 def main():
     course_list = []
     student_list = []
+    mark_list = []
 
     while (True):
         choice = intro()
@@ -44,37 +47,50 @@ def main():
             output_course_list(course_list)
         elif choice == 5:
             # create marks
-            create_marks(course_list)
+            create_marks(course_list, student_list)
         elif choice == 6:
             # show all marks of a course
             output_marks_list(course_list)
         elif choice == 7:
-            averageGpa(course_list, student_list)
+            average_gpa(course_list, student_list)
         elif choice == 8:
             #import data
             print('\n')
-            if not os.path.isfile("./data/students.txt"):
-                print('File does not exists')
+
+            if not os.path.isfile("./data/students.dat"):
+                print('(.dat) file does not exists')
+            with ZipFile('./data/students.dat', 'r') as zip:
+                zip.extractall()
             with open('./data/students.txt', 'r+') as students_data, \
                 open('./data/courses.txt', 'r+') as courses_data, \
                 open('./data/marks.txt', 'r+') as marks_data:
-                #TODO: strip "\n" off the data
-                temp_list = [line.strip('\n') for line in students_data.readlines()]
-                #TODO: process the student_list here
-                for item in temp_list:
+                temp_student_list = [line.strip('\n') for line in students_data.readlines()]
+                for item in temp_student_list:
                     item_stripped = item.split(',')
-                    print(item_stripped)
                     temp_student = Student(item_stripped[0], item_stripped[1], item_stripped[2])
                     student_list.append(temp_student)
+                print(student_list)
 
-                course_list = [line.strip('\n') for line in students_data.readlines()]
-                mark_list = [line.strip('\n') for line in students_data.readlines()]
+                temp_course_list = [line.strip('\n') for line in courses_data.readlines()]
+                for item in temp_course_list:
+                    item_stripped = item.split(',')
+                    temp_course = Course(item_stripped[0], item_stripped[1], item_stripped[2])
+                    course_list.append(temp_course)
+                print(course_list)
+
+                mark_list = [line.strip('\n') for line in marks_data.readlines()]
+                for item in mark_list:
+                    for course in course_list:
+                        if item == course.id:
+                            course.mark_list.append(item)
                 # print(student_list)
+                print('Import Successful!')
 
         elif choice == 9:
             # save and exit
             #TODO: when output, put info into format: ex for student: "name, id, dob"
-            
+            save_data(student_list, course_list)
+            compress_to_dat()
             return
 
 if __name__=="__main__":
